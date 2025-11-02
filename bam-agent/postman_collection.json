@@ -1,0 +1,241 @@
+{
+  "info": {
+    "name": "BAM Agent API",
+    "description": "API for generating image prompts from text using AI agents and workflows",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "bam-agent-api-collection",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check if the server is running and healthy"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/health",
+                  "host": ["{{base_url}}"],
+                  "path": ["health"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ok\",\n  \"timestamp\": \"2025-10-30T12:00:00.000Z\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Endpoints for checking API health and status"
+    },
+    {
+      "name": "Prompts",
+      "item": [
+        {
+          "name": "Generate Image Prompts",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"A serene mountain landscape at sunset with a lone traveler walking along a winding path\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/generate-prompts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "generate-prompts"]
+            },
+            "description": "Generate AI image prompts from narrative text. The workflow breaks down the text into scenes and creates 4 unique prompt variations per scene."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"A serene mountain landscape at sunset with a lone traveler walking along a winding path\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/generate-prompts",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "generate-prompts"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"imagePrompts\": \"Scene 1 - Prompt 1: Wide shot of mountain landscape, serene atmosphere, golden hour lighting, cinematic composition, --ar 16:9\\nScene 1 - Prompt 2: Close-up of lone traveler, determined expression, winding path, natural lighting, character focus, cinematic style, --ar 16:9\\nScene 1 - Prompt 3: Mountain valley vista, sunset atmosphere, dramatic sky, environmental detail, cinematic style, --ar 16:9\\nScene 1 - Prompt 4: Detail shot of path stones, sunset glow, shallow depth of field, macro perspective, cinematic style, --ar 16:9\",\n    \"promptCount\": 4\n  }\n}"
+            },
+            {
+              "name": "Invalid Input - Missing Text",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/generate-prompts",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "generate-prompts"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Invalid input\",\n  \"message\": \"Request body must contain a \\\"text\\\" field with a string value\"\n}"
+            },
+            {
+              "name": "Invalid Input - Empty Text",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/generate-prompts",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "generate-prompts"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Invalid input\",\n  \"message\": \"Text cannot be empty\"\n}"
+            },
+            {
+              "name": "Server Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"Sample text\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/generate-prompts",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "generate-prompts"]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Internal server error\",\n  \"message\": \"Error message details\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Endpoints for generating AI image prompts from text"
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
