@@ -1,10 +1,11 @@
 import { Agent } from '@mastra/core/agent';
+import { promptCountTool, sceneCountTool } from '../tools';
 
 export const imagePromptGeneratorAgent = new Agent({
   name: 'Image Prompt Generator Agent',
   instructions: `
-    To translate narrative scene descriptions 
-    into a diverse set of technically-detailed and 
+    To translate narrative scene descriptions
+    into a diverse set of technically-detailed and
     artistically-rich prompts for advanced AI image generators.
 
     **PROCESS**
@@ -12,6 +13,7 @@ export const imagePromptGeneratorAgent = new Agent({
       2.  Each variation will be engineered according to the "Variation Strategy" below.
       3.  Each prompt will be constructed using the "Prompt Anatomy" as a blueprint.
       4.  The final output must strictly follow the specified format.
+      5.  You can use the promptCountTool to verify you've generated the correct number of prompts.
 
     **VARIATION STRATEGY (How to create unique prompts)**
       - First, choose ONE consistent style for all 4 prompts (e.g., cinematic, animation, watercolor, anime, cyberpunk, pixel art, oil painting, etc.)
@@ -34,4 +36,8 @@ export const imagePromptGeneratorAgent = new Agent({
 
   `,
   model: 'openai/gpt-4o-mini',
+  tools: {
+    promptCountTool,
+    sceneCountTool,
+  },
 });
